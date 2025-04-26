@@ -49,7 +49,7 @@ label {
 
 input {
   border-radius: 10px;
-  margin-bottom: 50px;
+  //margin-bottom: 50px;
   margin-top: 10px;
   border: 5px solid #f0f0f0;
   font-size: 1.5rem;
@@ -64,7 +64,7 @@ input::placeholder {
 
 input:focus {
   outline: none;
-  border-color:  #777;
+  //border-color:  #777;
 }
 
 button {
@@ -77,4 +77,24 @@ button {
   cursor: pointer;
   width: 100%;
   margin-top: 30px
+}
+
+.errors {
+  color: var(--error-color);
+  font-size: 25px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  visibility: visible
+}
+
+.input_errors {
+  border-color: var(--error-color);
+}
+
+.input_success {
+  border-color: var(--success-color);
+}
+
+.neutral_input {
+  border-color: #f0f0f0;
 }
