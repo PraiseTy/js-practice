@@ -11,7 +11,27 @@ let snake = [  {x: 150, y: 150},  {x: 140, y: 150},  {x: 130, y: 150},  {x: 120,
 
 let foodX, foodY;
 
-let score = 0
+let score = 0;
+
+let gameActive = true
+
+const gameControls = document.getElementById('controls');
+const gameScore = document.getElementById('score')
+
+const restartBtn = document.getElementById('btn')
+restartBtn.addEventListener('click', () => {
+    if (!gameActive) {
+        score = 0;
+        foodX = 0;
+        foodY = 0;
+        snake = [  {x: 150, y: 150},  {x: 140, y: 150},  {x: 130, y: 150},  {x: 120, y: 150},  {x: 110, y: 150},];
+        createFood();
+        gameControls.style.visibility = 'hidden';
+        gameScore.innerHTML = `Score: ${score}`;
+        gameActive = true;
+        main()
+    }
+})
 
 function drawSnakePart(snakePart) {
     ctx.fillStyle = '#90EE90';
@@ -44,8 +64,6 @@ function changeDirection(event) {
 
 }
 
-let dx = 10;
-let dy = 0;
 
 function drawSnake() {
     snake.forEach(drawSnakePart);
@@ -57,7 +75,7 @@ function advanceSnake() {
     const didEatFood = snake[0].x === foodX && snake[0].y === foodY;
     if (didEatFood) {
         score += 10;
-        document.getElementById('score').innerHTML = score;
+        gameScore.innerHTML = `Score: ${score}`;
         createFood()
     }
     else {
@@ -74,9 +92,16 @@ function clearCanvas() {
 
 
 function main() {
-    if (didGameEnd()) return;
+    if (didGameEnd()) {
+       gameControls.style.visibility = 'visible';
+        gameActive = false;
+        return
+    }
     setTimeout( function onTick(){ clearCanvas(); drawFood();   advanceSnake();    drawSnake();  main();}, 100)
 }
+
+let dx = 10;
+let dy = 0;
 
 document.addEventListener('keydown', changeDirection);
 
@@ -105,7 +130,10 @@ function drawFood() {
 function didGameEnd() {
     for (let i = 4; i < snake.length; i++) {
         const didCollide = snake[i].x === snake[0].x && snake[i].y === snake[0].y;
-        if (didCollide) return true
+        if (didCollide) {
+            gameControls.style.visibility = 'visible';
+            return  true;
+        }
     }
     const hitLeftWall = snake[0].x < 0;  const hitRightWall = snake[0].x > gameCanvas.width - 10;  const hitTopWall = snake[0].y < 0;  const hitBottomWall = snake[0].y > gameCanvas.height - 10;
     return hitLeftWall ||          hitRightWall ||          hitTopWall ||         hitBottomWall
