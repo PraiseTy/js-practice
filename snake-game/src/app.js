@@ -56,6 +56,8 @@ function advanceSnake() {
     snake.unshift(head)
     const didEatFood = snake[0].x === foodX && snake[0].y === foodY;
     if (didEatFood) {
+        score += 10;
+        document.getElementById('score').innerHTML = score;
         createFood()
     }
     else {
@@ -72,6 +74,7 @@ function clearCanvas() {
 
 
 function main() {
+    if (didGameEnd()) return;
     setTimeout( function onTick(){ clearCanvas(); drawFood();   advanceSnake();    drawSnake();  main();}, 100)
 }
 
@@ -97,6 +100,16 @@ function createFood(){
 
 function drawFood() {
     ctx.fillStyle = '#FF0000'; ctx.strokestyle = '#8B0000'; ctx.fillRect(foodX, foodY, 10, 10); ctx.strokeRect(foodX, foodY, 10, 10);
+}
+
+function didGameEnd() {
+    for (let i = 4; i < snake.length; i++) {
+        const didCollide = snake[i].x === snake[0].x && snake[i].y === snake[0].y;
+        if (didCollide) return true
+    }
+    const hitLeftWall = snake[0].x < 0;  const hitRightWall = snake[0].x > gameCanvas.width - 10;  const hitTopWall = snake[0].y < 0;  const hitBottomWall = snake[0].y > gameCanvas.height - 10;
+    return hitLeftWall ||          hitRightWall ||          hitTopWall ||         hitBottomWall
+
 }
 
 createFood();
