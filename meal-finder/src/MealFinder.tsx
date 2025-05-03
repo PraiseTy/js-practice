@@ -39,7 +39,7 @@ const MealFinder = () => {
     console.log(result.meals[0]);
   };
   return (
-    <div className={styles.container}>
+    <div>
       <h1>Meal Finder</h1>
       <div className={styles.searchContainer}>
         <div>
@@ -52,16 +52,16 @@ const MealFinder = () => {
           <FontAwesomeIcon icon={faRandom} />
         </button>
       </div>
-      <div>
+      <div className={styles.container}>
         {meal.length > 0 && (
-          <div>
+          <div className={styles.container}>
             <h1>{meal[0].strMeal}</h1>
-            <img src={`${meal[0].strMealThumb}/small`} alt="meal-image" />
-            <div>
+            <img src={`${meal[0].strMealThumb}/medium`} alt="meal-image" className={styles.mealImage} />
+            <div className={styles.mealdescription}>
               <p>{meal[0].strCategory}</p>
               <p>{meal[0].strArea}</p>
             </div>
-            .<p>{meal[0].strInstructions}</p>
+            <p className={styles.mealInstructions}>{meal[0].strInstructions}</p>
             <h2>Ingredients</h2>
             <ul>
               {meal[0].ingredients.map((item, idx) => (

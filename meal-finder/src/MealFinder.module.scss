@@ -25,7 +25,6 @@ input {
   padding-left: 10px;
   border: none;
   border-radius: 5px 0 0 5px;
-  //border-right: none;
   outline: none;
 }
 
@@ -43,8 +42,81 @@ button {
   display: flex;
   flex-direction: row;
   padding-bottom: 20px;
+  justify-content: center;
 }
 
 .randomButton {
   margin-left: 10px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #ffffff;
+  justify-content: center;
+  text-align: center;
+}
+
+.mealImage {
+  width: 300px;
+  border: 4px solid white;
+}
+
+.mealdescription {
+  border: 2px dashed #e09850;
+  padding: 20px 220px;
+  margin: 40px 0px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.mealdescription p {
+  padding: 10px 0;
+  font-size: 16px;
+}
+
+.mealInstructions {
+  max-width: 550px;
+  letter-spacing: 0.5px;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+h2 {
+  padding: 24px 0;
+}
+
+ul {
+  padding-bottom: 40px;
+  max-width: 550px;
+}
+
+li {
+  margin: 0 5px 5px 0;
+  border: 2px solid #ededed;
+  padding: 5px;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border-radius: 5px;
+  font-size: 13px;
+  display: inline-block;
+}
+
+@media (max-width: 600px) {
+  .mealInstructions {
+    max-width: 440px;
+    margin: auto;
+    padding: 0 10px;
+  }
+
+  .mealdescription {
+    padding: 20px 120px;
+  }
+  ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
