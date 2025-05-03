@@ -18,6 +18,8 @@ interface MealProps {
 const MealFinder = () => {
   const baseUrl = import.meta.env.VITE_API_URL;
   const [meal, setMeal] = useState<MealProps[]>([]);
+  const [searchedMeal, setSearchedMeal] = useState<MealProps[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const getRandomMeal = async () => {
     const { data: result } = await axios.get(`${baseUrl}/random.php`);
@@ -33,21 +35,56 @@ const MealFinder = () => {
         ingredients.push({ ingredient, measurement: measurement || '' });
       }
     }
-
+    setSearchedMeal([]);
     setMeal([{ ...fetchedMeal, ingredients }]);
+  };
 
-    console.log(result.meals[0]);
+  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const { data: result } = await axios.get(`${baseUrl}/search.php?s=${searchTerm}`);
+
+    if (result.meals && result.meals.length > 0) {
+      const processedMeals = result.meals.map((fetchedMeal: any) => {
+        const ingredients = [];
+
+        for (let i = 1; i < 20; i++) {
+          const ingredient = fetchedMeal[`strIngredient${i}`];
+          const measurement = fetchedMeal[`strMeasure${i}`];
+
+          if (ingredient && ingredient.trim() !== '') {
+            ingredients.push({ ingredient, measurement: measurement || '' });
+          }
+        }
+
+        return { ...fetchedMeal, ingredients };
+      });
+
+      setMeal([]);
+      setSearchTerm('');
+      setSearchedMeal(processedMeals);
+    } else {
+      setMeal([]);
+      setSearchedMeal([]);
+    }
+    console.log(result);
+    console.log(searchTerm);
   };
   return (
     <div>
       <h1>Meal Finder</h1>
       <div className={styles.searchContainer}>
-        <div>
-          <input type="text" id="search" placeholder="Search for meals or keywords" />
-          <button className={styles.searchButton}>
+        <form onSubmit={handleSearch}>
+          <input
+            type="text"
+            id="search"
+            placeholder="Search for meals or keywords"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button className={styles.searchButton} type="submit">
             <FontAwesomeIcon icon={faSearch} />
           </button>
-        </div>
+        </form>
         <button className={styles.randomButton} onClick={getRandomMeal}>
           <FontAwesomeIcon icon={faRandom} />
         </button>
@@ -70,6 +107,16 @@ const MealFinder = () => {
             </ul>
           </div>
         )}
+        {searchedMeal.length > 0 && (
+          <div>
+            {searchedMeal.map((item, idx) => (
+              <p key={idx}>{item.strMeal}</p>
+            ))}
+            {/*{searchedMeal}*/}
+          </div>
+        )}
+
+        {searchTerm && meal.length === 0 && searchedMeal.length === 0 && <p>No search Results found</p>}
       </div>
     </div>
   );
