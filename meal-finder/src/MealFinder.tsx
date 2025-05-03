@@ -20,6 +20,8 @@ const MealFinder = () => {
   const [meal, setMeal] = useState<MealProps[]>([]);
   const [searchedMeal, setSearchedMeal] = useState<MealProps[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [lastSearchedTerm, setLastSearchedTerm] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
 
   const getRandomMeal = async () => {
     const { data: result } = await axios.get(`${baseUrl}/random.php`);
@@ -41,7 +43,12 @@ const MealFinder = () => {
 
   const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { data: result } = await axios.get(`${baseUrl}/search.php?s=${searchTerm}`);
+
+    const cleanedSearchTerm = searchTerm.trim();
+
+    if (cleanedSearchTerm === '') return;
+
+    const { data: result } = await axios.get(`${baseUrl}/search.php?s=${cleanedSearchTerm}`);
 
     if (result.meals && result.meals.length > 0) {
       const processedMeals = result.meals.map((fetchedMeal: any) => {
@@ -60,10 +67,13 @@ const MealFinder = () => {
       });
 
       setMeal([]);
+      setLastSearchedTerm(searchTerm);
       setSearchTerm('');
+      setIsSearching(true);
       setSearchedMeal(processedMeals);
     } else {
       setMeal([]);
+      setIsSearching(true);
       setSearchedMeal([]);
     }
     console.log(result);
@@ -109,14 +119,23 @@ const MealFinder = () => {
         )}
         {searchedMeal.length > 0 && (
           <div>
-            {searchedMeal.map((item, idx) => (
-              <p key={idx}>{item.strMeal}</p>
-            ))}
-            {/*{searchedMeal}*/}
+            <h2>Search results for '{lastSearchedTerm}'</h2>
+            <div className={styles.display}>
+              {searchedMeal.map((item, idx) => (
+                <div className={styles.result}>
+                  <img src={item.strMealThumb} alt="mealImage" className={styles.searchImage} />
+                  <p key={idx} className={styles.searchName}>
+                    {item.strMeal}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
-        {searchTerm && meal.length === 0 && searchedMeal.length === 0 && <p>No search Results found</p>}
+        {isSearching && meal.length === 0 && searchedMeal.length === 0 && (
+          <h2>There are no search results. Try again!</h2>
+        )}
       </div>
     </div>
   );
