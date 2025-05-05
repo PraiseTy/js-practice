@@ -4,35 +4,39 @@ const ExpenseTracker = () => {
   return (
     <div className={styles.container}>
       <h1>Expense Tracker </h1>
-      <p>Your Balance</p>
-      <p>$7.00</p>
 
       <div>
+        <p className={styles.total_label}>Your Balance</p>
+        <p className={styles.balance}>$7.00</p>
+      </div>
+
+      <div className={styles.show_amount}>
         <div>
-          <p>Income</p>
-          <p>$29.00</p>
+          <p className={styles.amount_label}>Income</p>
+          <p className={styles.income}>$29.00</p>
         </div>
         <div>
-          <p>Expense</p>
-          <p>$22.00</p>
+          <p className={styles.amount_label}>Expense</p>
+          <p className={styles.expense}>$22.00</p>
         </div>
       </div>
 
       <div>
-        <h2>History</h2>
+        <h3>History</h3>
+        <div>Add cost here</div>
       </div>
 
-      <div>
-        <h2>Add new Transaction</h2>
+      <div className={styles.input_box}>
+        <h3>Add new Transaction</h3>
         <form>
           <div>
             <label>Text</label>
-            <input type="text" placeholder="Enter Text" />
+            <input type="text" placeholder="Enter Text..." />
           </div>
           <div>
             <label>Amount</label>
-            <p>(negative-expense,positive-income)</p>
-            <input type="number" placeholder="Enter Amount" />
+            <p>(negative-expense, positive-income)</p>
+            <input type="number" placeholder="Enter Amount..." />
           </div>
           <button type="submit">Add Transaction</button>
         </form>
