@@ -10,6 +10,9 @@ const ExpenseTracker = () => {
   const [cost, setCost] = useState(0);
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (text.trim() === '' || amount === '') {
+      alert('Please enter a text and amount');
+    }
     setExpense([
       ...expense,
       {
