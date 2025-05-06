@@ -104,7 +104,7 @@ input::placeholder {
   font-size: 16px;
 }
 
-button {
+.submit_btn {
   margin: 12px 0 40px 0;
   width: 100%;
   padding: 10px;
@@ -113,4 +113,52 @@ button {
   background-color: #9c88ff;
   font-size: 16px;
   cursor: pointer;
+}
+
+.expense_list {
+  background-color: #ffffff;
+  margin: 10px 0;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.plus,
+li {
+  border-right: 5px solid #2ecc71;
+}
+
+.minus,
+li {
+  border-right: 5px solid #c0392b;
+}
+
+.delete_btn {
+  background-color: #e74c3c;
+  border: none;
+  color: #ffffff;
+  padding: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  visibility: hidden;
+  position: absolute;
+  top: 10px;
+  left: -17px;
+}
+
+li {
+  list-style: none;
+  width: 100%;
+}
+
+.expense_container {
+  position: relative;
+}
+
+.expense_container:hover .delete_btn,
+.delete_btn:hover {
+  visibility: visible;
 }
